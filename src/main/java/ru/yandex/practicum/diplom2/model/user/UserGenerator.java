@@ -6,9 +6,10 @@ import java.util.Locale;
 
 public class UserGenerator {
 
+    private static final Faker faker = new Faker(new Locale("en"));
+    private static final User user = new User();
+
     public static User getUser(UserType userType) {
-        Faker faker = new Faker(new Locale("en"));
-        User user = new User();
 
         switch (userType) {
             case VALID_USER:
@@ -30,6 +31,14 @@ public class UserGenerator {
                 break;
         }
         return user;
+    }
+
+    public static String getRandomPassword() {
+        return faker.internet().password(6, 10);
+    }
+
+    public static String getRandomEmail() {
+        return faker.internet().emailAddress();
     }
 
 }
