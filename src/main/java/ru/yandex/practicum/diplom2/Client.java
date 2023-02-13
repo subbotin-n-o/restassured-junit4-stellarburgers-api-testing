@@ -11,7 +11,7 @@ public class Client {
 
     private static final String BASE_URL = "https://stellarburgers.nomoreparties.site/";
 
-    protected RequestSpecification getSpec() {
+    protected static RequestSpecification getSpec() {
 
         RestAssured.filters(new ResponseLoggingFilter());
 

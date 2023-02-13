@@ -8,6 +8,7 @@ import ru.yandex.practicum.diplom2.model.user.*;
 
 import static org.apache.http.HttpStatus.*;
 import static org.junit.Assert.*;
+import static ru.yandex.practicum.diplom2.model.user.UserClient.createUser;
 import static ru.yandex.practicum.diplom2.model.user.UserGenerator.*;
 import static ru.yandex.practicum.diplom2.model.user.UserType.*;
 
@@ -28,7 +29,7 @@ public class CreateUserTest {
     @DisplayName("Success create User")
     @Description("Expected response: StatusCode 200")
     public void succesCreateUserTest() {
-        response = userClient.createUser(getUser(VALID_USER));
+        response = createUser(getUser(VALID_USER));
 
         int actualStatusCode = response.extract().statusCode();
         boolean actualSuccess = response.extract().path("success");
@@ -43,9 +44,9 @@ public class CreateUserTest {
     @Description("Expected response: StatusCode 403")
     public void createDuplicateUserTest() {
         User user = getUser(VALID_USER);
-        userClient.createUser(user);
+        createUser(user);
 
-        response = userClient.createUser(user);
+        response = createUser(user);
 
         int actualStatusCode = response.extract().statusCode();
         String actualMessage = response.extract().path("message");
@@ -61,7 +62,7 @@ public class CreateUserTest {
     @DisplayName("Create User no name")
     @Description("Expected response: StatusCode 403")
     public void createUserNoNameTest() {
-        response = userClient.createUser(getUser(NO_NAME_USER));
+        response = createUser(getUser(NO_NAME_USER));
 
         int actualStatusCode = response.extract().statusCode();
         String actualMessage = response.extract().path("message");
@@ -77,7 +78,7 @@ public class CreateUserTest {
     @DisplayName("Create User no email")
     @Description("Expected response: StatusCode 403")
     public void createUserNoEmailTest() {
-        response = userClient.createUser(getUser(NO_EMAIL_USER));
+        response = createUser(getUser(NO_EMAIL_USER));
 
         int actualStatusCode = response.extract().statusCode();
         String actualMessage = response.extract().path("message");
@@ -93,7 +94,7 @@ public class CreateUserTest {
     @DisplayName("Create User no password")
     @Description("Expected response: StatusCode 403")
     public void createUserNoPasswordTest() {
-        response = userClient.createUser(getUser(NO_PASSWORD_USER));
+        response = createUser(getUser(NO_PASSWORD_USER));
 
         int actualStatusCode = response.extract().statusCode();
         String actualMessage = response.extract().path("message");
