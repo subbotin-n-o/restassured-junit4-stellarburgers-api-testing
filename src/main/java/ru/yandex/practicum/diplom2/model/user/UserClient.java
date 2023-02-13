@@ -19,12 +19,12 @@ public class UserClient extends Client {
                 .then();
     }
 
-    public ValidatableResponse loginUser(User user) {
+    public static ValidatableResponse loginUser(UserCredentials credentials) {
         return given()
                 .spec(getSpec())
-                .body(user)
+                .body(credentials)
                 .when()
-                .post(PATH_REGISTER)
+                .post(PATH_LOGIN)
                 .then();
     }
 
