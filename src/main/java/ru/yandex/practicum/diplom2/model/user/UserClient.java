@@ -7,14 +7,24 @@ import static io.restassured.RestAssured.given;
 
 public class UserClient extends Client {
 
-    private static final String PATH_CREATE = "api/auth/register";
+    private static final String PATH_REGISTER = "api/auth/register";
+    private static final String PATH_LOGIN = "api/auth/login";
 
-    public ValidatableResponse createUser(User user) {
+    public static ValidatableResponse createUser(User user) {
         return given()
                 .spec(getSpec())
                 .body(user)
                 .when()
-                .post(PATH_CREATE)
+                .post(PATH_REGISTER)
+                .then();
+    }
+
+    public ValidatableResponse loginUser(User user) {
+        return given()
+                .spec(getSpec())
+                .body(user)
+                .when()
+                .post(PATH_REGISTER)
                 .then();
     }
 
