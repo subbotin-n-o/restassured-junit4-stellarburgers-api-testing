@@ -18,12 +18,12 @@ public class UserCredentials {
         return new UserCredentials(user.getEmail(), user.getPassword());
     }
 
-    public static UserCredentials notValidUserEmail(User user) {
+    public static UserCredentials changeUserEmail(User user) {
         user.setEmail(getRandomEmail());
         return new UserCredentials(user.getEmail(), user.getPassword());
     }
 
-    public static UserCredentials notValidUserPassword(User user) {
+    public static UserCredentials changeUserPassword(User user) {
         user.setPassword(getRandomPassword());
         return new UserCredentials(user.getEmail(), user.getPassword());
     }
