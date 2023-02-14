@@ -9,6 +9,7 @@ public class UserClient extends Client {
 
     private static final String PATH_REGISTER = "api/auth/register";
     private static final String PATH_LOGIN = "api/auth/login";
+    private static final String PATH_DELETE = "api/auth/user";
 
     public static ValidatableResponse createUser(User user) {
         return given()
@@ -25,6 +26,14 @@ public class UserClient extends Client {
                 .body(credentials)
                 .when()
                 .post(PATH_LOGIN)
+                .then();
+    }
+
+    public static ValidatableResponse deleteUser(String token) {
+        return given()
+                .spec(getSpec())
+                .auth().oauth2(token)
+                .delete(PATH_DELETE)
                 .then();
     }
 
