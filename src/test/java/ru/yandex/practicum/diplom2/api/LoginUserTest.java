@@ -3,32 +3,36 @@ package ru.yandex.practicum.diplom2.api;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ru.yandex.practicum.diplom2.model.user.User;
 import ru.yandex.practicum.diplom2.model.user.UserClient;
 
-import static org.apache.http.HttpStatus.SC_OK;
-import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
+import static org.apache.http.HttpStatus.*;
 import static org.junit.Assert.*;
-import static ru.yandex.practicum.diplom2.model.user.UserClient.createUser;
-import static ru.yandex.practicum.diplom2.model.user.UserClient.loginUser;
+import static ru.yandex.practicum.diplom2.model.user.UserClient.*;
 import static ru.yandex.practicum.diplom2.model.user.UserCredentials.*;
 import static ru.yandex.practicum.diplom2.model.user.UserGenerator.getUser;
 import static ru.yandex.practicum.diplom2.model.user.UserType.VALID_USER;
 
 public class LoginUserTest {
 
-    public static final String INCORRECT = "email or password are incorrect";
     private User user;
     private UserClient userClient;
     private ValidatableResponse response;
+
+    private static final String INCORRECT = "email or password are incorrect";
+    private static String accessToken;
 
     @Before
     public void setUp() {
         user = getUser(VALID_USER);
         userClient = new UserClient();
-        createUser(user);
+
+        accessToken = createUser(user)
+                .extract()
+                .path("accessToken");
     }
 
     @Test
@@ -49,7 +53,7 @@ public class LoginUserTest {
     @DisplayName("Login User not valid email")
     @Description("Expected response: StatusCode 401")
     public void loginUserNotValidEmailTest() {
-        response = loginUser(notValidUserEmail(user));
+        response = loginUser(changeUserEmail(user));
 
         int actualStatusCode = response.extract().statusCode();
         String actualMessage = response.extract().path("message");
@@ -65,7 +69,7 @@ public class LoginUserTest {
     @DisplayName("Login User not valid password")
     @Description("Expected response: StatusCode 401")
     public void loginUserNotValidPasswordTest() {
-        response = loginUser(notValidUserPassword(user));
+        response = loginUser(changeUserPassword(user));
 
         int actualStatusCode = response.extract().statusCode();
         String actualMessage = response.extract().path("message");
@@ -75,5 +79,12 @@ public class LoginUserTest {
         assertEquals(INCORRECT, actualMessage);
         assertFalse(actualSuccess);
 
+    }
+
+    @After
+    public void clearDate() {
+        deleteUser(new StringBuilder(accessToken)
+                .substring(7))
+                .statusCode(SC_ACCEPTED);
     }
 }
