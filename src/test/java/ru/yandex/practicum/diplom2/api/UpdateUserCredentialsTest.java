@@ -6,17 +6,15 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.yandex.practicum.diplom2.model.user.User;
 import ru.yandex.practicum.diplom2.model.user.UserClient;
-import ru.yandex.practicum.diplom2.model.user.UserCredentials;
 
 import static org.apache.http.HttpStatus.*;
 import static org.junit.Assert.*;
 import static ru.yandex.practicum.diplom2.model.user.UserClient.*;
-import static ru.yandex.practicum.diplom2.model.user.UserCredentials.from;
-import static ru.yandex.practicum.diplom2.model.user.UserCredentials.updateUserName;
+import static ru.yandex.practicum.diplom2.model.user.UserCredentials.*;
 import static ru.yandex.practicum.diplom2.model.user.UserGenerator.getUser;
 import static ru.yandex.practicum.diplom2.model.user.UserType.VALID_USER;
 
-public class ChangeUserCredentialsTest {
+public class UpdateUserCredentialsTest {
 
     private User user;
     private UserClient userClient;
@@ -42,6 +40,30 @@ public class ChangeUserCredentialsTest {
     public void updateUserNameWithAuth() {
 
         response = updateUser(updateUserName(user), accessToken);
+
+        int actualStatusCode = response.extract().statusCode();
+        boolean actualSuccess = response.extract().path("success");
+
+        assertEquals(SC_OK, actualStatusCode);
+        assertTrue(actualSuccess);
+    }
+
+    @Test
+    public void updateUserEmailWithAuth() {
+
+        response = updateUser(updateUserEmail(user), accessToken);
+
+        int actualStatusCode = response.extract().statusCode();
+        boolean actualSuccess = response.extract().path("success");
+
+        assertEquals(SC_OK, actualStatusCode);
+        assertTrue(actualSuccess);
+    }
+
+    @Test
+    public void updateUserPasswordWithAuth() {
+
+        response = updateUser(updateUserEmail(user), accessToken);
 
         int actualStatusCode = response.extract().statusCode();
         boolean actualSuccess = response.extract().path("success");
