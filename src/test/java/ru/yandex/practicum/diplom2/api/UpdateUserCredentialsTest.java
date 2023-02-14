@@ -33,12 +33,11 @@ public class UpdateUserCredentialsTest {
                 .extract()
                 .path("accessToken"))
                 .substring(7);
-        loginUser(from(user));
     }
 
     @Test
-    public void updateUserNameWithAuth() {
-
+    public void updateUserNameAuthorized() {
+        loginUser(from(user));
         response = updateUser(updateUserName(user), accessToken);
 
         int actualStatusCode = response.extract().statusCode();
@@ -49,8 +48,8 @@ public class UpdateUserCredentialsTest {
     }
 
     @Test
-    public void updateUserEmailWithAuth() {
-
+    public void updateUserEmailAuthorized() {
+        loginUser(from(user));
         response = updateUser(updateUserEmail(user), accessToken);
 
         int actualStatusCode = response.extract().statusCode();
@@ -61,8 +60,22 @@ public class UpdateUserCredentialsTest {
     }
 
     @Test
-    public void updateUserPasswordWithAuth() {
+    public void updateUserEmailToDuplicateAuthorized() {
+        loginUser(from(user));
+        response = updateUser(getUserEmail(user), accessToken);
 
+        int actualStatusCode = response.extract().statusCode();
+        String actualMessage = response.extract().path("message");
+        boolean actualSuccess = response.extract().path("success");
+
+        assertEquals(SC_FORBIDDEN, actualStatusCode);
+        assertEquals(EMAIL_ALREADY_EXISTS, actualMessage);
+        assertFalse(actualSuccess);
+    }
+
+    @Test
+    public void updateUserPasswordAuthorized() {
+        loginUser(from(user));
         response = updateUser(updateUserEmail(user), accessToken);
 
         int actualStatusCode = response.extract().statusCode();
@@ -70,6 +83,48 @@ public class UpdateUserCredentialsTest {
 
         assertEquals(SC_OK, actualStatusCode);
         assertTrue(actualSuccess);
+    }
+
+    @Test
+    public void updateUserNameUnauthorized() {
+
+        response = updateUser(updateUserName(user), accessToken);
+
+        int actualStatusCode = response.extract().statusCode();
+        String actualMessage = response.extract().path("message");
+        boolean actualSuccess = response.extract().path("success");
+
+        assertEquals(SC_UNAUTHORIZED, actualStatusCode);
+        assertEquals(SHOULD_BE_AUTH, actualMessage);
+        assertFalse(actualSuccess);
+    }
+
+    @Test
+    public void updateUserEmailUnauthorized() {
+
+        response = updateUser(updateUserEmail(user), accessToken);
+
+        int actualStatusCode = response.extract().statusCode();
+        String actualMessage = response.extract().path("message");
+        boolean actualSuccess = response.extract().path("success");
+
+        assertEquals(SC_UNAUTHORIZED, actualStatusCode);
+        assertEquals(SHOULD_BE_AUTH, actualMessage);
+        assertFalse(actualSuccess);
+    }
+
+    @Test
+    public void updateUserPasswordUnauthorized() {
+
+        response = updateUser(updateUserPassword(user), accessToken);
+
+        int actualStatusCode = response.extract().statusCode();
+        String actualMessage = response.extract().path("message");
+        boolean actualSuccess = response.extract().path("success");
+
+        assertEquals(SC_UNAUTHORIZED, actualStatusCode);
+        assertEquals(SHOULD_BE_AUTH, actualMessage);
+        assertFalse(actualSuccess);
     }
 
     @After

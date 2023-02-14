@@ -43,4 +43,8 @@ public class UserCredentials {
         return new UserCredentials(null, null, user.getName());
     }
 
+    public static UserCredentials getUserEmail(User user) {
+        return new UserCredentials(user.getEmail(), null, null);
+    }
+
 }
