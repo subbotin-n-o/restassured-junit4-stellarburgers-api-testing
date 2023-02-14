@@ -30,9 +30,10 @@ public class LoginUserTest {
         user = getUser(VALID_USER);
         userClient = new UserClient();
 
-        accessToken = createUser(user)
+        accessToken = new StringBuilder(createUser(user)
                 .extract()
-                .path("accessToken");
+                .path("accessToken"))
+                .substring(7);
     }
 
     @Test
@@ -53,7 +54,7 @@ public class LoginUserTest {
     @DisplayName("Login User not valid email")
     @Description("Expected response: StatusCode 401")
     public void loginUserNotValidEmailTest() {
-        response = loginUser(changeUserEmail(user));
+        response = loginUser(replaceUserEmail(user));
 
         int actualStatusCode = response.extract().statusCode();
         String actualMessage = response.extract().path("message");
@@ -69,7 +70,7 @@ public class LoginUserTest {
     @DisplayName("Login User not valid password")
     @Description("Expected response: StatusCode 401")
     public void loginUserNotValidPasswordTest() {
-        response = loginUser(changeUserPassword(user));
+        response = loginUser(replaceUserPassword(user));
 
         int actualStatusCode = response.extract().statusCode();
         String actualMessage = response.extract().path("message");
@@ -83,8 +84,7 @@ public class LoginUserTest {
 
     @After
     public void clearDate() {
-        deleteUser(new StringBuilder(accessToken)
-                .substring(7))
+        deleteUser(accessToken)
                 .statusCode(SC_ACCEPTED);
     }
 }
