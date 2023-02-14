@@ -33,12 +33,16 @@ public class UserGenerator {
         return user;
     }
 
+    public static String getRandomEmail() {
+        return faker.internet().emailAddress();
+    }
+
     public static String getRandomPassword() {
         return faker.internet().password(6, 10);
     }
 
-    public static String getRandomEmail() {
-        return faker.internet().emailAddress();
+    public static String getRandomName() {
+        return faker.name().firstName();
     }
 
 }
