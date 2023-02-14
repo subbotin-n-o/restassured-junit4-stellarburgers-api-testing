@@ -9,6 +9,7 @@ import ru.yandex.practicum.diplom2.model.user.*;
 import static org.apache.http.HttpStatus.*;
 import static org.junit.Assert.*;
 import static ru.yandex.practicum.diplom2.model.user.UserClient.createUser;
+import static ru.yandex.practicum.diplom2.model.user.UserClient.deleteUser;
 import static ru.yandex.practicum.diplom2.model.user.UserGenerator.*;
 import static ru.yandex.practicum.diplom2.model.user.UserType.*;
 
@@ -18,7 +19,7 @@ public class CreateUserTest {
     private ValidatableResponse response;
 
     private static final String USER_EXISTS = "User already exists";
-    public static final String REQUIRED_FIELDS = "Email, password and name are required fields";
+    private static final String REQUIRED_FIELDS = "Email, password and name are required fields";
 
     @Before
     public void setUp() {
@@ -37,6 +38,10 @@ public class CreateUserTest {
         assertEquals(SC_OK, actualStatusCode);
         assertTrue(actualSuccess);
 
+        deleteUser(new StringBuilder(response.extract()
+                .path("accessToken"))
+                .substring(7))
+                .statusCode(SC_ACCEPTED);
     }
 
     @Test
@@ -105,4 +110,5 @@ public class CreateUserTest {
         assertFalse(actualSuccess);
 
     }
+
 }
