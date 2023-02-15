@@ -1,5 +1,7 @@
 package ru.yandex.practicum.diplom2.api;
 
+import io.qameta.allure.Description;
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Before;
@@ -14,7 +16,7 @@ import static ru.yandex.practicum.diplom2.model.user.UserCredentials.*;
 import static ru.yandex.practicum.diplom2.model.user.UserGenerator.getUser;
 import static ru.yandex.practicum.diplom2.model.user.UserType.VALID_USER;
 
-public class UpdateUserCredentialsTest {
+public class ChangeUserCredentialsTest {
 
     private User user;
     private UserClient userClient;
@@ -36,7 +38,9 @@ public class UpdateUserCredentialsTest {
     }
 
     @Test
-    public void updateUserNameAuthorized() {
+    @DisplayName("Change username with authorization")
+    @Description("Expected response: StatusCode 200")
+    public void changeUserNameAuthTest() {
         loginUser(from(user));
         response = updateUser(updateUserName(user), accessToken);
 
@@ -48,7 +52,9 @@ public class UpdateUserCredentialsTest {
     }
 
     @Test
-    public void updateUserEmailAuthorized() {
+    @DisplayName("Change user email with authorization")
+    @Description("Expected response: StatusCode 200")
+    public void changeUserEmailAuthTest() {
         loginUser(from(user));
         response = updateUser(updateUserEmail(user), accessToken);
 
@@ -60,7 +66,9 @@ public class UpdateUserCredentialsTest {
     }
 
     @Test
-    public void updateUserEmailToDuplicateAuthorized() {
+    @DisplayName("Change user email to duplicate with authorization")
+    @Description("Expected response: StatusCode 403")
+    public void changeUserEmailToDuplicateAuthTest() {
         loginUser(from(user));
         response = updateUser(getUserEmail(user), accessToken);
 
@@ -74,7 +82,9 @@ public class UpdateUserCredentialsTest {
     }
 
     @Test
-    public void updateUserPasswordAuthorized() {
+    @DisplayName("Change user password with authorization")
+    @Description("Expected response: StatusCode 200")
+    public void changeUserPasswordAuthTest() {
         loginUser(from(user));
         response = updateUser(updateUserEmail(user), accessToken);
 
@@ -86,7 +96,9 @@ public class UpdateUserCredentialsTest {
     }
 
     @Test
-    public void updateUserNameUnauthorized() {
+    @DisplayName("Change username unauthorized")
+    @Description("Expected response: StatusCode 401")
+    public void changeUserNameUnAuthTest() {
 
         response = updateUser(updateUserName(user), accessToken);
 
@@ -100,7 +112,9 @@ public class UpdateUserCredentialsTest {
     }
 
     @Test
-    public void updateUserEmailUnauthorized() {
+    @DisplayName("Change user email unauthorized")
+    @Description("Expected response: StatusCode 401")
+    public void changeUserEmailUnAuthTest() {
 
         response = updateUser(updateUserEmail(user), accessToken);
 
@@ -114,7 +128,9 @@ public class UpdateUserCredentialsTest {
     }
 
     @Test
-    public void updateUserPasswordUnauthorized() {
+    @DisplayName("Change user password unauthorized")
+    @Description("Expected response: StatusCode 401")
+    public void changeUserPasswordUnAuthTest() {
 
         response = updateUser(updateUserPassword(user), accessToken);
 
