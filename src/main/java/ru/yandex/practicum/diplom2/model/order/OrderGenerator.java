@@ -23,4 +23,9 @@ public class OrderGenerator {
         order.setIngredients(listIngredients);
         return order;
     }
+
+    public static Order getEmptyListIngredients() {
+        order.setIngredients(null);
+        return order;
+    }
 }
