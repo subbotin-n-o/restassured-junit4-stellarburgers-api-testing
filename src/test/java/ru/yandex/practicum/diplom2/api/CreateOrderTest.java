@@ -145,8 +145,7 @@ public class CreateOrderTest {
     @After
     public void clearDate() {
         if(accessToken != null) {
-            deleteUser(accessToken)
-                    .statusCode(SC_ACCEPTED);
+            deleteUser(accessToken);
         }
     }
 }

@@ -20,6 +20,8 @@ public class CreateUserTest {
     private UserClient userClient;
     private ValidatableResponse response;
 
+    private static String accessToken;
+
     private static final String USER_EXISTS = "User already exists";
     private static final String REQUIRED_FIELDS = "Email, password and name are required fields";
 
@@ -34,16 +36,17 @@ public class CreateUserTest {
     public void a_succesCreateUserTest() {
         response = createUser(getUser(VALID_USER));
 
+        accessToken = new StringBuilder(response
+                .extract()
+                .path("accessToken"))
+                .substring(7);
+
         int actualStatusCode = response.extract().statusCode();
         boolean actualSuccess = response.extract().path("success");
 
         assertEquals(SC_OK, actualStatusCode);
         assertTrue(actualSuccess);
 
-        deleteUser(new StringBuilder(response.extract()
-                .path("accessToken"))
-                .substring(7))
-                .statusCode(SC_ACCEPTED);
     }
 
     @Test
@@ -51,7 +54,12 @@ public class CreateUserTest {
     @Description("Expected response: StatusCode 403")
     public void b_createDuplicateUserTest() {
         User user = getUser(VALID_USER);
-        createUser(user);
+        response = createUser(user);
+
+        accessToken = new StringBuilder(response
+                .extract()
+                .path("accessToken"))
+                .substring(7);
 
         response = createUser(user);
 
@@ -111,6 +119,13 @@ public class CreateUserTest {
         assertEquals(REQUIRED_FIELDS, actualMessage);
         assertFalse(actualSuccess);
 
+    }
+
+    @After
+    public void clearDate() {
+        if(accessToken != null) {
+            deleteUser(accessToken);
+        }
     }
 
 }

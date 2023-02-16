@@ -4,6 +4,7 @@ import io.restassured.response.ValidatableResponse;
 import ru.yandex.practicum.diplom2.Client;
 
 import static io.restassured.RestAssured.given;
+import static org.apache.http.HttpStatus.SC_ACCEPTED;
 
 public class UserClient extends Client {
 

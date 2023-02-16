@@ -87,7 +87,6 @@ public class LoginUserTest {
 
     @After
     public void clearDate() {
-        deleteUser(accessToken)
-                .statusCode(SC_ACCEPTED);
+        deleteUser(accessToken);
     }
 }

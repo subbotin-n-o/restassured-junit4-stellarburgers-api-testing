@@ -3,7 +3,6 @@ package ru.yandex.practicum.diplom2.api;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
-import org.junit.After;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -52,6 +51,7 @@ public class GetOrdersTest {
         assertEquals(SC_OK, actualStatusCode);
         assertTrue(actualSuccess);
 
+        deleteUser(accessToken);
     }
 
     @Test
@@ -71,11 +71,4 @@ public class GetOrdersTest {
 
     }
 
-    @After
-    public void clearDate() {
-        if(accessToken != null) {
-            deleteUser(accessToken)
-                    .statusCode(SC_ACCEPTED);
-        }
-    }
 }

@@ -148,8 +148,9 @@ public class ChangeUserCredentialsTest {
 
     @After
     public void clearDate() {
-        deleteUser(accessToken)
-                .statusCode(SC_ACCEPTED);
+        if(accessToken != null) {
+            deleteUser(accessToken);
+        }
     }
 
 }
