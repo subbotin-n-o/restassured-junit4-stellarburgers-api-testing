@@ -10,6 +10,7 @@ public class OrderClient extends Client {
 
     private static final String PATH_GET_INGREDIENTS = "api/ingredients";
     private static final String PATH_CREATE_ORDER = "api/orders";
+    private static final String PATH_GET_LIST_ORDERS = "api/orders";
 
     public static Ingredients getIngredients() {
         return given()
@@ -36,4 +37,20 @@ public class OrderClient extends Client {
                 .post(PATH_CREATE_ORDER)
                 .then();
     }
+
+    public static ValidatableResponse getListOrdersUser(String token) {
+        return given()
+                .spec(getSpec())
+                .auth().oauth2(token)
+                .get(PATH_GET_LIST_ORDERS)
+                .then();
+    }
+
+    public static ValidatableResponse getListOrdersUser() {
+        return given()
+                .spec(getSpec())
+                .get(PATH_GET_LIST_ORDERS)
+                .then();
+    }
+
 }
