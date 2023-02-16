@@ -4,6 +4,7 @@ import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.*;
+import org.junit.runners.MethodSorters;
 import ru.yandex.practicum.diplom2.model.user.*;
 
 import static org.apache.http.HttpStatus.*;
@@ -13,6 +14,7 @@ import static ru.yandex.practicum.diplom2.model.user.UserClient.deleteUser;
 import static ru.yandex.practicum.diplom2.model.user.UserGenerator.*;
 import static ru.yandex.practicum.diplom2.model.user.UserType.*;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CreateUserTest {
 
     private UserClient userClient;
@@ -29,7 +31,7 @@ public class CreateUserTest {
     @Test
     @DisplayName("Success create User")
     @Description("Expected response: StatusCode 200")
-    public void succesCreateUserTest() {
+    public void a_succesCreateUserTest() {
         response = createUser(getUser(VALID_USER));
 
         int actualStatusCode = response.extract().statusCode();
@@ -47,7 +49,7 @@ public class CreateUserTest {
     @Test
     @DisplayName("Create duplicate User")
     @Description("Expected response: StatusCode 403")
-    public void createDuplicateUserTest() {
+    public void b_createDuplicateUserTest() {
         User user = getUser(VALID_USER);
         createUser(user);
 
@@ -66,7 +68,7 @@ public class CreateUserTest {
     @Test
     @DisplayName("Create User no name")
     @Description("Expected response: StatusCode 403")
-    public void createUserNoNameTest() {
+    public void c_createUserNoNameTest() {
         response = createUser(getUser(NO_NAME_USER));
 
         int actualStatusCode = response.extract().statusCode();
@@ -82,7 +84,7 @@ public class CreateUserTest {
     @Test
     @DisplayName("Create User no email")
     @Description("Expected response: StatusCode 403")
-    public void createUserNoEmailTest() {
+    public void d_createUserNoEmailTest() {
         response = createUser(getUser(NO_EMAIL_USER));
 
         int actualStatusCode = response.extract().statusCode();
@@ -98,7 +100,7 @@ public class CreateUserTest {
     @Test
     @DisplayName("Create User no password")
     @Description("Expected response: StatusCode 403")
-    public void createUserNoPasswordTest() {
+    public void e_createUserNoPasswordTest() {
         response = createUser(getUser(NO_PASSWORD_USER));
 
         int actualStatusCode = response.extract().statusCode();

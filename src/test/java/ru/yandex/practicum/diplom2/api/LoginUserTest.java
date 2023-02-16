@@ -5,7 +5,9 @@ import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.junit.runners.MethodSorters;
 import ru.yandex.practicum.diplom2.model.user.User;
 import ru.yandex.practicum.diplom2.model.user.UserClient;
 
@@ -16,6 +18,7 @@ import static ru.yandex.practicum.diplom2.model.user.UserCredentials.*;
 import static ru.yandex.practicum.diplom2.model.user.UserGenerator.getUser;
 import static ru.yandex.practicum.diplom2.model.user.UserType.VALID_USER;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class LoginUserTest {
 
     private User user;
@@ -39,7 +42,7 @@ public class LoginUserTest {
     @Test
     @DisplayName("Success login User")
     @Description("Expected response: StatusCode 200")
-    public void succesLoginUserTest() {
+    public void a_succesLoginUserTest() {
         response = loginUser(from(user));
 
         int actualStatusCode = response.extract().statusCode();
@@ -53,7 +56,7 @@ public class LoginUserTest {
     @Test
     @DisplayName("Login User not valid email")
     @Description("Expected response: StatusCode 401")
-    public void loginUserNotValidEmailTest() {
+    public void b_loginUserNotValidEmailTest() {
         response = loginUser(replaceUserEmail(user));
 
         int actualStatusCode = response.extract().statusCode();
@@ -69,7 +72,7 @@ public class LoginUserTest {
     @Test
     @DisplayName("Login User not valid password")
     @Description("Expected response: StatusCode 401")
-    public void loginUserNotValidPasswordTest() {
+    public void c_loginUserNotValidPasswordTest() {
         response = loginUser(replaceUserPassword(user));
 
         int actualStatusCode = response.extract().statusCode();
