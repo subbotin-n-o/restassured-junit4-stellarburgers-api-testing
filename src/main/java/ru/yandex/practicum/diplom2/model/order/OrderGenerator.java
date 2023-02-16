@@ -1,6 +1,5 @@
 package ru.yandex.practicum.diplom2.model.order;
 
-
 import ru.yandex.practicum.diplom2.model.order.ingredients.Ingredients;
 
 import java.util.ArrayList;
